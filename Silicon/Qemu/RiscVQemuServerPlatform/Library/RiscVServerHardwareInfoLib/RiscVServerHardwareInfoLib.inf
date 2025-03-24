@@ -1,0 +1,42 @@
+#/* @file
+#
+#  Copyright (c) 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#*/
+
+[Defines]
+  INF_VERSION                    = 0x0001001c
+  BASE_NAME                      = RiscVServerHardwareInfoLib
+  FILE_GUID                      = 750536C2-BFDE-1A0A-D61A-37ED4D2AFF11
+  MODULE_TYPE                    = BASE
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = HardwareInfoLib
+
+[Sources]
+  RiscVServerHardwareInfoLib.c
+
+[Packages]
+  ArmPkg/ArmPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Platform/RISC-V/PlatformPkg/RiscVPlatformPkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+  Silicon/Qemu/SbsaQemu/SbsaQemu.dec
+
+[LibraryClasses]
+  ArmMonitorLib
+  ResetSystemLib
+  DebugLib
+  DevicePathLib
+  MemroyAllocationLib
+  PcdLib
+  PciHostBridgeLib
+  BaseMemoryLib
+  DxeServicesTableLib
+
+[Pcd]
+  gArmTokenSpaceGuid.PcdGicDistributorBase
+  gArmTokenSpaceGuid.PcdGicRedistributorsBase
+  gArmVirtSbsaQemuPlatformTokenSpaceGuid.PcdGicItsBase

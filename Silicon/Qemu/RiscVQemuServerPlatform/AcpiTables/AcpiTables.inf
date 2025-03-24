@@ -1,0 +1,72 @@
+## @file
+#
+#  ACPI table data and ASL sources required to boot the platform.
+#
+#  Copyright (c) 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = AcpiTables
+  FILE_GUID                      = 0935EC10-0043-BD40-72CB-4275C969C08E
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+[Sources]
+  Dsdt/Dsdt.asl
+  Fadt.aslc
+  Mcfg.aslc
+  #Pptt.aslc
+  Spcr.aslc
+  Srat.aslc
+  Slit.aslc
+
+[Packages]
+  #Platform/RISC-V/PlatformPkg/RiscVPlatformPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[FixedPcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorId
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultCreatorRevision
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemId
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemTableId
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiDefaultOemRevision
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMin
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMax
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoBase
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoSize
+  #gEfiMdePkgTokenSpaceGuid.PcdPciIoTranslation
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoLimit
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Base
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Size
+  #gEfiMdePkgTokenSpaceGuid.PcdPciMmio32Translation
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Limit
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Base
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Size
+  #gEfiMdePkgTokenSpaceGuid.PcdPciMmio64Translation
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Limit
+
+  #gEfiMdePkgTokenSpaceGuid.PcdPciExpressBaseAddress
+
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
+
+  #device support (defination in .dec)
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformAhciBase
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformAhciSize
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformXhciBase
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformXhciSize
+
+
+[Pcd]
+
+

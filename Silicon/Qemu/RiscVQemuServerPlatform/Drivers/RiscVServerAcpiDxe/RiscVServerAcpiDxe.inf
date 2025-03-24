@@ -1,0 +1,50 @@
+## @file
+#  This driver modifies ACPI tables for the Qemu SBSA platform
+#
+#  Copyright (c) 2020-2024, Linaro Ltd. All rights reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001d
+  BASE_NAME                      = RiscVServerAcpiDxe
+  FILE_GUID                      = C712F231-F62E-D248-6B02-56DA94775EE7
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+
+  ENTRY_POINT                    = AcpiPlatformEntryPoint
+
+[Sources]
+  RiscVServerAcpiDxe.c
+  UpdateAcpiTable.c
+
+[Packages]
+  Platform/RISC-V/PlatformPkg/RiscVPlatformPkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  MdePkg/MdePkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[LibraryClasses]
+  #AcpiLib
+  BaseMemoryLib
+  #BaseLib
+  DebugLib
+  DxeServicesLib
+  #HardwareInfoLib
+  PcdLib
+  #PrintLib
+  UefiDriverEntryPoint
+  #UefiLib
+  UefiBootServicesTableLib
+
+[Pcd]
+  gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiTableStorageFile
+
+[Depex]
+  gEfiAcpiTableProtocolGuid AND gFdtClientProtocolGuid                       ## CONSUMES
+
+[UserExtensions.TianoCore."ExtraFiles"]
+  RiscVServerAcpiDxeExtra.uni
