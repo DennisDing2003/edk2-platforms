@@ -149,7 +149,6 @@
 [PcdsFixedAtBuild.common]
   gEfiMdeModulePkgTokenSpaceGuid.PcdMaxVariableSize|0x2000
   gEfiMdeModulePkgTokenSpaceGuid.PcdMaxAuthVariableSize|0x2800
-  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase|0x00000000
 !if $(NETWORK_TLS_ENABLE) == TRUE
   #
   # The cumulative and individual VOLATILE variable size limits should be set
@@ -228,6 +227,16 @@
   #
   gEfiNetworkPkgTokenSpaceGuid.PcdIPv4PXESupport|0x01
   gEfiNetworkPkgTokenSpaceGuid.PcdIPv6PXESupport|0x01
+
+  #
+  # RISC-V SERVER General Interrupt Controller
+  #
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdGicDistributorBase|0x40060000
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdGicRedistributorsBase|0x40080000
+
+  # GIC ITS
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdGicItsBase|0
+  #gUefiRiscVPlatformPkgTokenSpaceGuid.PcdSmmuBase|0x60050000
 
   #
   # TPM2 support
@@ -491,3 +500,8 @@
       NULL|OvmfPkg/Fdt/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
   }
   Silicon/Qemu/RiscVQemuServerPlatform/AcpiTables/AcpiTables.inf
+  #Silicon/Qemu/RiscVQemuServerPlatform/Drivers/RiscVServerAcpiDxe/RiscVServerAcpiDxe.inf
+  #Silicon/Qemu/RiscVQemuServerPlatform/Library/RiscVServerHardwareInfoLib/RiscVServerHardwareInfoLib.inf
+
+#!include Silicon/Qemu/RiscVQemuServerPlatform/Acpi.dsc.inc
+#  MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf

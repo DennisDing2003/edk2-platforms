@@ -23,11 +23,22 @@
 [Packages]
   MdePkg/MdePkg.dec
   MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
   OvmfPkg/OvmfPkg.dec
-  Platform/RISC-V/PlatformPkg/RiscVPlatformPkg.dec
   Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  UefiBootServicesTableLib
+
+[Protocols]
+  gFdtClientProtocolGuid          ## CONSUMES
+
+[Depex]
+  gFdtClientProtocolGuid
 
 [Pcd]
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdBaseAddress#gUefiOvmfPkgTokenSpaceGuid.PcdOvmfFdBaseAddress
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdSize#gUefiOvmfPkgTokenSpaceGuid.PcdOvmfFirmwareFdSize
-  gEfiMdeModulePkgTokenSpaceGuid.PcdFlashNvStorageVariableBase
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdRvspFlashNvStorageBase
