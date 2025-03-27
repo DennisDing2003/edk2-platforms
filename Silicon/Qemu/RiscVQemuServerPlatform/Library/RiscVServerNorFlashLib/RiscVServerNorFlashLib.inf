@@ -1,0 +1,44 @@
+#/** @file
+#
+#  Component description file for VirtNorFlashStaticLib module
+#
+#  Copyright (c) 2014, Linaro Ltd. All rights reserved.<BR>
+#  Copyright (c) 2024, Intel Corporation. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#**/
+
+[Defines]
+  INF_VERSION                    = 0x00010005
+  BASE_NAME                      = RiscVServerNorFlashLib
+  FILE_GUID                      = 8DDD45FA-500F-33A4-DB3B-86AC103EB55D
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = VirtNorFlashPlatformLib
+
+[Sources.common]
+  RiscVServerNorFlashLib.c
+
+[Packages]
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  EmbeddedPkg/EmbeddedPkg.dec
+  OvmfPkg/OvmfPkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  UefiBootServicesTableLib
+
+[Protocols]
+  gFdtClientProtocolGuid          ## CONSUMES
+
+[Depex]
+  gFdtClientProtocolGuid
+
+[Pcd]
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdBaseAddress
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdSize
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdRvspFlashNvStorageBase

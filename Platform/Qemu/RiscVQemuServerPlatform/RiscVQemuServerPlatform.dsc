@@ -85,7 +85,7 @@
   QemuLoadImageLib|OvmfPkg/Library/GenericQemuLoadImageLib/GenericQemuLoadImageLib.inf
 
   TimerLib|UefiCpuPkg/Library/BaseRiscV64CpuTimerLib/BaseRiscV64CpuTimerLib.inf
-  VirtNorFlashPlatformLib|OvmfPkg/RiscVVirt/Library/VirtNorFlashPlatformLib/VirtNorFlashDeviceTreeLib.inf
+  VirtNorFlashPlatformLib|Silicon/Qemu/RiscVQemuServerPlatform/Library/RiscVServerNorFlashLib/RiscVServerNorFlashLib.inf
 
   CapsuleLib|MdeModulePkg/Library/DxeCapsuleLibNull/DxeCapsuleLibNull.inf
   BootLogoLib|MdeModulePkg/Library/BootLogoLib/BootLogoLib.inf
@@ -353,7 +353,7 @@
   OvmfPkg/Fdt/HighMemDxe/HighMemDxe.inf
 
   #
-  # FAT filesystem + GPT/MBR partitioning + UDF filesystem
+  # FAT filesystem + GPT/MBR partitioning + UDF filesystem + virtio-fs
   #
   MdeModulePkg/Universal/Disk/DiskIoDxe/DiskIoDxe.inf
   MdeModulePkg/Universal/Disk/PartitionDxe/PartitionDxe.inf
@@ -479,6 +479,7 @@
   # ACPI Support
   #
   OvmfPkg/PlatformHasAcpiDtDxe/PlatformHasAcpiDtDxe.inf
+  MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
   OvmfPkg/AcpiPlatformDxe/AcpiPlatformDxe.inf {
     <LibraryClasses>

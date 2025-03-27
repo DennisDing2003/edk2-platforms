@@ -1,0 +1,44 @@
+#/** @file
+#
+#  Copyright (c) 2024, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#**/
+
+[Defines]
+  DEC_SPECIFICATION              = 0x0001001B
+  PACKAGE_NAME                   = RiscVQemuServerPlatformPkg
+  PACKAGE_GUID                   = 2093890a-3662-24f5-5bca-cafb9fe4aa2c
+  PACKAGE_VERSION                = 0.1
+
+[LibraryClasses]
+  ArmMonitorLib
+  ResetSystemLib
+  DebugLib
+  DevicePathLib
+  MemroyAllocationLib
+  PcdLib
+  PciHostBridgeLib
+  BaseMemoryLib
+  DxeServicesTableLib
+  HardwareInfoLib
+
+[Guids.common]
+  gUefiRiscVPlatformPkgTokenSpaceGuid  = {0x6A67AF99, 0x4592, 0x40F8, { 0xB6, 0xBE, 0x62, 0xBC, 0xA1, 0x0D, 0xA1, 0xEC}}
+
+[PcdsFixedAtBuild.common]
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMin|0|UINT32|0x00000001
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMax|0xFF|UINT32|0x00000002
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoBase|0|UINT64|0x00000003
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoSize|0x10000|UINT64|0x00000004
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Base|0x40000000|UINT32|0x00000005
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Size|0x40000000|UINT32|0x00000006
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Base|0x10000000000|UINT64|0x00000007
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Size|0x10000000000|UINT64|0x00000008
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdBaseAddress|0x22000000|UINT64|0x00000009
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdSize|0x2000000|UINT64|0x00000010
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdRvspFlashNvStorageBase|0x22000000|UINT64|0x00000011
+
+[PcdsDynamic.common]
