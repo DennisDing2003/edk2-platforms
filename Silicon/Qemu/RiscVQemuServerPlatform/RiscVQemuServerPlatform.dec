@@ -27,6 +27,9 @@
 [Guids.common]
   gUefiRiscVPlatformPkgTokenSpaceGuid  = {0x6A67AF99, 0x4592, 0x40F8, { 0xB6, 0xBE, 0x62, 0xBC, 0xA1, 0x0D, 0xA1, 0xEC}}
 
+[Includes]
+  Include
+
 [PcdsFixedAtBuild.common]
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMin|0|UINT32|0x00000001
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMax|0xFF|UINT32|0x00000002
