@@ -1,0 +1,44 @@
+## @file
+#
+#  ACPI table data and ASL sources required to boot the platform.
+#
+#  Copyright (c) 2025, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.<BR>
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+##
+
+[Defines]
+  INF_VERSION                    = 0x0001001A
+  BASE_NAME                      = AcpiTables
+  FILE_GUID                      = 7E374E25-8E01-4FEE-87F2-390C23C606CD#B65BAE17-B1E1-A5F8-4925-156FE1984DD6
+  MODULE_TYPE                    = USER_DEFINED
+  VERSION_STRING                 = 1.0
+
+[Sources]
+  Dsdt/Dsdt.asl
+  Fadt.aslc
+  Mcfg.aslc
+
+[Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[FixedPcd]
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMin
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciBusMax
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoBase
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciIoSize
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Base
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio32Size
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Base
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPciMmio64Size
+
+  gEfiMdeModulePkgTokenSpaceGuid.PcdSerialRegisterBase
+
+[Pcd]
