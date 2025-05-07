@@ -1,0 +1,38 @@
+#/* @file
+#
+#  Copyright (c) 2024, Linaro Ltd. All rights reserved.
+#
+#  SPDX-License-Identifier: BSD-2-Clause-Patent
+#
+#*/
+
+[Defines]
+  INF_VERSION                    = 0x0001001c
+  BASE_NAME                      = RiscVServerHardwareInfoLib
+  FILE_GUID                      = 6454006f-6502-46e2-9be4-4bba8d4b29fb
+  MODULE_TYPE                    = DXE_DRIVER
+  VERSION_STRING                 = 1.0
+  LIBRARY_CLASS                  = HardwareInfoLib
+
+[Sources]
+  RiscVServerHardwareInfoLib.c
+
+[Packages]
+  EmbeddedPkg/EmbeddedPkg.dec
+  MdePkg/MdePkg.dec
+  MdeModulePkg/MdeModulePkg.dec
+  Silicon/Qemu/RiscVQemuServerPlatform/RiscVQemuServerPlatform.dec
+
+[LibraryClasses]
+  BaseLib
+  DebugLib
+  UefiBootServicesTableLib
+  ResetSystemLib
+
+[Protocols]
+  gFdtClientProtocolGuid          ## CONSUMES
+
+[Depex]
+  gFdtClientProtocolGuid
+
+[Pcd]
