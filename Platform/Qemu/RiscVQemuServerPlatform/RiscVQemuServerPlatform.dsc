@@ -102,6 +102,7 @@
   PeiHardwareInfoLib|OvmfPkg/Library/HardwareInfoLib/PeiHardwareInfoLib.inf
   PlatformHookLib|MdeModulePkg/Library/BasePlatformHookLibNull/BasePlatformHookLibNull.inf
   ImagePropertiesRecordLib|MdeModulePkg/Library/ImagePropertiesRecordLib/ImagePropertiesRecordLib.inf
+  HardwareInfoLib|Silicon/Qemu/RiscVQemuServerPlatform/Library/RiscVServerHardwareInfoLib/RiscVServerHardwareInfoLib.inf
 
 !if $(TPM2_ENABLE) == TRUE
   Tpm2CommandLib|SecurityPkg/Library/Tpm2CommandLib/Tpm2CommandLib.inf
@@ -489,6 +490,7 @@
     <LibraryClasses>
       NULL|OvmfPkg/Fdt/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
   }
+  MdeModulePkg/Universal/Acpi/AcpiPlatformDxe/AcpiPlatformDxe.inf
   MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   Silicon/Qemu/RiscVQemuServerPlatform/AcpiTables/AcpiTables.inf
   Silicon/Qemu/RiscVQemuServerPlatform/Drivers/RiscVServerAcpiDxe/RiscVServerAcpiDxe.inf

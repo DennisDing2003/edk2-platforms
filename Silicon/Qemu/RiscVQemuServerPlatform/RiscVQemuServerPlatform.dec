@@ -22,7 +22,8 @@
   PciHostBridgeLib
   BaseMemoryLib
   DxeServicesTableLib
-  HardwareInfoLib
+  #HardwareInfoLib
+  HardwareInfoLib|Include/Library/HardwareInfoLib.h
 
 [Guids.common]
   gUefiRiscVPlatformPkgTokenSpaceGuid  = {0x6A67AF99, 0x4592, 0x40F8, { 0xB6, 0xBE, 0x62, 0xBC, 0xA1, 0x0D, 0xA1, 0xEC}}
@@ -43,5 +44,10 @@
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdBaseAddress|0x22000000|UINT64|0x00000009
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdVariableFdSize|0x2000000|UINT64|0x00000010
   gUefiRiscVPlatformPkgTokenSpaceGuid.PcdRvspFlashNvStorageBase|0x22000000|UINT64|0x00000011
+
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformAhciBase|0|UINT64|0x00000012
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformAhciSize|0x10000|UINT32|0x00000013
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformXhciBase|0|UINT64|0x00000014
+  gUefiRiscVPlatformPkgTokenSpaceGuid.PcdPlatformXhciSize|0x10000|UINT32|0x00000015
 
 [PcdsDynamic.common]
