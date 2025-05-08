@@ -19,6 +19,11 @@
   Dsdt/Dsdt.asl
   Fadt.aslc
   Mcfg.aslc
+  Madt.aslc
+  Rhct.aslc
+  Srat.aslc
+  Slit.aslc
+  Pptt.aslc
 
 [Packages]
   EmbeddedPkg/EmbeddedPkg.dec

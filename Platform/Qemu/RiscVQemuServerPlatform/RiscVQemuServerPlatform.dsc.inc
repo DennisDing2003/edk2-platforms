@@ -204,6 +204,15 @@
   gEfiMdeModulePkgTokenSpaceGuid.PcdInstallAcpiSdtProtocol|TRUE
 
 [PcdsFixedAtBuild.common]
+  #
+  # Control the maximum SATP mode that MMU allowed to use.
+  # 6 - Bare mode.
+  # 8 - 39bit mode.
+  # 9 - 48bit mode.
+  # 10 - 57bit mode
+  #
+  gUefiCpuPkgTokenSpaceGuid.PcdCpuRiscVMmuMaxSatpMode|0
+
   gEfiMdePkgTokenSpaceGuid.PcdRiscVFeatureOverride|0xFFFFFFFFFFFFFFF8
   gEfiMdePkgTokenSpaceGuid.PcdMaximumUnicodeStringLength|1000000
   gEfiMdePkgTokenSpaceGuid.PcdMaximumAsciiStringLength|1000000

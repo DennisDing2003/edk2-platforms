@@ -1,0 +1,45 @@
+/** @file
+*
+*  Copyright (c) 2023, Academy of Intelligent Innovation, Shandong Universiy, China.P.R. All rights reserved.<BR>
+*
+*  SPDX-License-Identifier: BSD-2-Clause-Patent
+*
+**/
+
+#include <IndustryStandard/Acpi.h>
+#include <Library/AcpiLib.h>
+#include <IndustryStandard/RiscVServerAcpi.h>
+
+//
+// Static Resource Affinity Table definition
+//
+EFI_ACPI_STATIC_RESOURCE_AFFINITY_TABLE Srat = {
+  {
+    RISCV_ACPI_HEADER (
+      EFI_ACPI_6_5_SYSTEM_RESOURCE_AFFINITY_TABLE_SIGNATURE,
+      EFI_ACPI_STATIC_RESOURCE_AFFINITY_TABLE,
+      EFI_ACPI_6_5_SYSTEM_RESOURCE_AFFINITY_TABLE_REVISION
+    ),
+    0x00000001,                                  // Reserved to be 1 for backward compatibility
+    EFI_ACPI_RESERVED_QWORD
+  },
+
+  //
+  // Memory Affinity
+  //
+  {
+    EFI_ACPI_6_5_MEMORY_AFFINITY_STRUCTURE_INIT (0x0, 0x00000008, 0x00060000, 0x27FE3CFF, 0x00000000, 0x00000001),
+    EFI_ACPI_6_5_MEMORY_AFFINITY_STRUCTURE_INIT (0x0, 0x00000027, 0xFFFF000, 0x00000FFF, 0x00000000, 0x00000001),
+  },
+
+  {
+    EFI_ACPI_6_5_APIC_SAPIC_AFFINITY_STRUCTURE_INIT (0x00, 0x00, 0x00000001, 0x00, 0x00000000),   //APIC Affinity Processor 0
+    EFI_ACPI_6_5_APIC_SAPIC_AFFINITY_STRUCTURE_INIT (0x00, 0x01, 0x00000001, 0x00, 0x00000000),   //APIC Affinity Processor 1
+  },
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing the
+// data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &Srat;

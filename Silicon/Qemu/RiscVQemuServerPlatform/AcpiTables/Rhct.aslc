@@ -1,0 +1,79 @@
+/** @file
+  RISC-V Hart Capabilities Table (RHCT)
+
+  A new ACPI table named as RISC-V Hart Capabilities Table (RHCT).
+  This table is required to communicate certain capabilities of
+  RISC-V Hart (hardware thread) to the Operating System.
+
+  Copyright (c) 2020 - 2022, Arm Limited. All rights reserved.
+
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+  @par Specification Reference:
+    - ACPI 6.5, Chapter 5, Section 5.2.12, Multiple APIC Description Table
+**/
+
+#include <Library/AcpiLib.h>
+#include <Library/PcdLib.h>
+#include <IndustryStandard/RiscVServerAcpi.h>
+
+// Multiple APIC Description Table
+#pragma pack (1)
+
+typedef struct {
+  EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE_HEADER    Header;
+  EFI_ACPI_6_6_ISA_STRING_NODE_STRUCTURE               ISAStrNode;
+  EFI_ACPI_6_6_CMO_NODE_STRUCTURE                      CMONode;
+  EFI_ACPI_6_6_MMU_NODE_STRUCTURE                      MMUNode;
+  EFI_ACPI_6_6_HART_INFO_NODE_STRUCTURE                HartInfoNode[2];
+} EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE;
+
+#pragma pack ()
+
+STATIC EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE Rhct = {
+  {
+    RISCV_ACPI_HEADER (
+      EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE_SIGNATURE,
+      EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE,
+      EFI_ACPI_6_6_RISCV_HART_CAPABILITIES_TABLE_REVISION
+    ),
+    // RHCT specific fields
+    0,                      // Flags
+    10000000,               // Time Base Frequency
+    5,                     // Number of RHCT nodes
+    RHCT_NODE_ARRAY_OFFSET  // Offset to the RHCT node array
+  },
+  {
+    0,
+    22,                     // 8 + N + P: Size of this structure.
+    1,
+    14,
+    "rv64imafdcvhg\0"
+  },
+  {
+    1,
+    10,
+    1,
+    0,
+    64,
+    64,
+    64
+  },
+  {
+    2,
+    8,
+    1,
+    0,
+    1
+  },
+  {
+    EFI_ACPI_6_6_HART_INFO_NODE_INIT (0),
+    EFI_ACPI_6_6_HART_INFO_NODE_INIT (1)
+  }
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing
+// the data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &Rhct;

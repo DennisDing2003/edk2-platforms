@@ -1,0 +1,65 @@
+/** @file
+  Multiple APIC Description Table (MADT)
+
+  The MADT table provides OSPM with information necessary for operation on
+  systems with Generic interrupt controller (GIC). The information about the GIC
+  CPU interface, redistributor, distributor and ITS blocks on the SG2042
+  multichip platform is included in this table.
+
+  Copyright (c) 2020 - 2022, Arm Limited. All rights reserved.
+
+  SPDX-License-Identifier: BSD-2-Clause-Patent
+
+  @par Specification Reference:
+    - ACPI spec, Revision 6.5+, 5.2.12 Multiple APIC Description Table (MADT)
+    - REF: https://github.com/riscv-non-isa/riscv-acpi/issues/15
+           https://drive.google.com/file/d/1oMGPyOD58JaPgMl1pKasT-VKsIKia7zR/view
+**/
+
+#include <Library/AcpiLib.h>
+#include <Library/PcdLib.h>
+#include <IndustryStandard/RiscVServerAcpi.h>
+
+// Multiple APIC Description Table
+#pragma pack (1)
+
+typedef struct {
+  EFI_ACPI_6_5_MULTIPLE_APIC_DESCRIPTION_TABLE_HEADER  Header;
+  EFI_ACPI_6_6_RINTC_STRUCTURE                         RINTC[2];
+  EFI_ACPI_6_6_APLIC_STRUCTURE                         APLIC[2];
+} EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE;
+
+#pragma pack ()
+
+STATIC EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE Madt = {
+  {
+    RISCV_ACPI_HEADER (
+      EFI_ACPI_6_5_MULTIPLE_APIC_DESCRIPTION_TABLE_SIGNATURE,
+      EFI_ACPI_6_6_MULTIPLE_APIC_DESCRIPTION_TABLE,
+      EFI_ACPI_6_5_MULTIPLE_APIC_DESCRIPTION_TABLE_REVISION
+    ),
+    // MADT specific fields
+    0, // LocalApicAddress
+    0  // Flags
+  },
+  {
+    // Format: EFI_ACPI_6_6_RINTC_STRUCTURE_INIT(Flags, HartId, AcpiCpuUid,
+    //                           ExternalInterruptId, IMSICBase, IMSICSize)
+    // Cluter 0
+    EFI_ACPI_6_6_RINTC_STRUCTURE_INIT( // rvsp core0
+      1, 0, 0, ACPI_BUILD_INTC_ID(0,0), 0, 0),
+    EFI_ACPI_6_6_RINTC_STRUCTURE_INIT( // rvsp core1
+      1, 1, 1, ACPI_BUILD_INTC_ID(0,1), 0, 0)
+  },
+  // APLIC
+  {
+    EFI_ACPI_6_6_APLIC_STRUCTURE_INIT (0, 0, 96, 7, 0x8000, 0xc000000, 224),
+    EFI_ACPI_6_6_APLIC_STRUCTURE_INIT (1, 1, 96, 7, 0x8000, 0xd000000, 320)
+  }
+};
+
+//
+// Reference the table being generated to prevent the optimizer from removing
+// the data structure from the executable
+//
+VOID* CONST ReferenceAcpiTable = &Madt;

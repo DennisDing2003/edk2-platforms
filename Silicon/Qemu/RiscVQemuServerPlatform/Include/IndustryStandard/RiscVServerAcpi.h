@@ -81,7 +81,7 @@ typedef struct {
   UINT16     Length;
   UINT16     Revision;
   UINT16     ISALen;
-  CHAR8      ISAStr[12];
+  CHAR8      ISAStr[14];
 } EFI_ACPI_6_6_ISA_STRING_NODE_STRUCTURE;
 
 // CMO node structure
@@ -297,7 +297,9 @@ typedef struct {
   UINT32    IMSICSize;
 } EFI_ACPI_6_6_RINTC_STRUCTURE;
 
-#define ACPI_BUILD_INTC_ID(socket, index) ((socket << 24) | (index))
+// 64-bit ACPI_BUILD_INTC_ID
+#define ACPI_BUILD_INTC_ID(socket, index) \
+  (((UINT64)(socket) << 32) | ((UINT64)(index) & 0xFFFFFFFF))
 
 // EFI_ACPI_6_6_RINTC_STRUCTURE
 #define EFI_ACPI_6_6_RINTC_STRUCTURE_INIT(Flags, HartId, AcpiCpuUid,               \
@@ -315,7 +317,7 @@ typedef struct {
   }
 
 //
-// PLIC Structure
+// APLIC Structure
 //
 typedef struct {
   UINT8     Type;
@@ -326,24 +328,24 @@ typedef struct {
   UINT16    TotalExtIntSrcsSup;
   UINT16    MaxPriority;
   UINT32    Flags;
-  UINT32    PLICSize;
-  UINT64    PLICBase;
+  UINT32    APLICSize;
+  UINT64    APLICBase;
   UINT32    SystemVectorBase;
-} EFI_ACPI_6_6_PLIC_STRUCTURE;
+} EFI_ACPI_6_6_APLIC_STRUCTURE;
 
-// EFI_ACPI_6_6_PLIC_STRUCTURE
-#define EFI_ACPI_6_6_PLIC_STRUCTURE_INIT(PlicId, HwId, TotalExtIntSrcsSup,     \
-  MaxPriority, PLICSize, PLICBase, SystemVectorBase) {                         \
+// EFI_ACPI_6_6_APLIC_STRUCTURE
+#define EFI_ACPI_6_6_APLIC_STRUCTURE_INIT(APlicId, HwId, TotalExtIntSrcsSup,     \
+  MaxPriority, APLICSize, APLICBase, SystemVectorBase) {                         \
     0x1B,                                 /* Type */                           \
-    sizeof (EFI_ACPI_6_6_PLIC_STRUCTURE),                                      \
+    sizeof (EFI_ACPI_6_6_APLIC_STRUCTURE),                                      \
     1,                                    /* Version */                        \
-    PlicId,                               /* PlicId */                         \
+    APlicId,                               /* PlicId */                         \
     {0, 0, 0, 0, 0, 0, 0, HwId},          /* Hardware ID */                    \
     TotalExtIntSrcsSup,                   /* Total External Interrupt Sources Supported */   \
     MaxPriority,                          /* Maximum interrupt priority */     \
     0,                                    /* Flags */                          \
-    PLICSize,                             /* PLIC Size */                      \
-    PLICBase,                             /* PLIC Address */                   \
+    APLICSize,                             /* PLIC Size */                      \
+    APLICBase,                             /* PLIC Address */                   \
     SystemVectorBase                      /* Global System Interrupt Vector Base */         \
   }
 
