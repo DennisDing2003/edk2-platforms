@@ -485,10 +485,11 @@
   #
   OvmfPkg/PlatformHasAcpiDtDxe/PlatformHasAcpiDtDxe.inf
   MdeModulePkg/Universal/Acpi/BootGraphicsResourceTableDxe/BootGraphicsResourceTableDxe.inf
-  OvmfPkg/AcpiPlatformDxe/AcpiPlatformDxe.inf {
-    <LibraryClasses>
-      NULL|OvmfPkg/Fdt/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
-  }
+  MdeModulePkg/Universal/Acpi/AcpiPlatformDxe/AcpiPlatformDxe.inf
+  #OvmfPkg/AcpiPlatformDxe/AcpiPlatformDxe.inf {
+  #  <LibraryClasses>
+  #    NULL|OvmfPkg/Fdt/FdtPciPcdProducerLib/FdtPciPcdProducerLib.inf
+  #}
   MdeModulePkg/Universal/Acpi/AcpiTableDxe/AcpiTableDxe.inf
   Silicon/Qemu/RiscVQemuServerPlatform/AcpiTables/AcpiTables.inf
   Silicon/Qemu/RiscVQemuServerPlatform/Drivers/RiscVServerAcpiDxe/RiscVServerAcpiDxe.inf

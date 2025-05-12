@@ -283,6 +283,7 @@ typedef struct {
       (((CoreId) & 0xFF) << 4) | ((CacheType) & 0xF)                           \
     )
 
+//Defination According to linux/include/acpi/actbl2.h
 // RINTC Structure
 typedef struct {
   UINT8     Type;
@@ -323,30 +324,59 @@ typedef struct {
   UINT8     Type;
   UINT8     Length;
   UINT8     Version;
-  UINT8     PlicId;
-  UINT8     HardwareId[8];
-  UINT16    TotalExtIntSrcsSup;
-  UINT16    MaxPriority;
+  UINT8     APlicId;
   UINT32    Flags;
-  UINT32    APLICSize;
+  UINT8     HardwareId[8];
+  UINT16    Totalidcs;
+  UINT16    TotalExtIntSrcsSup;
+  UINT32    SystemVectorBase;   //gsi base
   UINT64    APLICBase;
-  UINT32    SystemVectorBase;
+  UINT32    APLICSize;
 } EFI_ACPI_6_6_APLIC_STRUCTURE;
 
 // EFI_ACPI_6_6_APLIC_STRUCTURE
 #define EFI_ACPI_6_6_APLIC_STRUCTURE_INIT(APlicId, HwId, TotalExtIntSrcsSup,     \
-  MaxPriority, APLICSize, APLICBase, SystemVectorBase) {                         \
-    0x1B,                                 /* Type */                           \
+      APLICSize, APLICBase, SystemVectorBase) {                         \
+    0x1A,                                 /* Type */                           \
     sizeof (EFI_ACPI_6_6_APLIC_STRUCTURE),                                      \
     1,                                    /* Version */                        \
     APlicId,                               /* PlicId */                         \
-    {0, 0, 0, 0, 0, 0, 0, HwId},          /* Hardware ID */                    \
-    TotalExtIntSrcsSup,                   /* Total External Interrupt Sources Supported */   \
-    MaxPriority,                          /* Maximum interrupt priority */     \
     0,                                    /* Flags */                          \
-    APLICSize,                             /* PLIC Size */                      \
+    {0, 0, 0, 0, 0, 0, 0, HwId},          /* Hardware ID */                    \
+    0,                                    /* num_idcs */                       \
+    TotalExtIntSrcsSup,                   /* Total External Interrupt Sources Supported */   \
+    SystemVectorBase,                      /* Global System Interrupt Vector Base */         \
     APLICBase,                             /* PLIC Address */                   \
-    SystemVectorBase                      /* Global System Interrupt Vector Base */         \
+    APLICSize                              /* PLIC Size */                      \
+  }
+
+typedef struct {
+  UINT8     Type;
+  UINT8     Length;
+  UINT8     Version;
+  UINT8     Reserved;
+  UINT8     Flags;
+  UINT16    Num_IDs;
+  UINT16    Num_Guest_IDs;
+  UINT8     Guest_Index_Bits;
+  UINT8     Hart_Index_Bits;
+  UINT8     Group_Index_Bits;
+  UINT8     Group_Index_Shift;
+} EFI_ACPI_6_6_IMSIC_STRUCTURE;
+
+// EFI_ACPI_6_6_APLIC_STRUCTURE
+#define EFI_ACPI_6_6_IMSIC_STRUCTURE_INIT() {                         \
+    0x19,                                 /* Type */                           \
+    sizeof (EFI_ACPI_6_6_IMSIC_STRUCTURE),                                     \
+    1,                                    /* Version */                        \
+    EFI_ACPI_RESERVED_BYTE,               /* Reserved */                         \
+    0,                                    /* Flags */                          \
+    0xFF,                                 /* Num_IDs */                    \
+    0,                                    /* Num_Guest_IDs */                       \
+    0,                                    /* Guest_Index_Bits */         \
+    1,                                    /* Hart_Index_Bits */         \
+    0,                                    /* Group_Index_Bits */                   \
+    0                                     /* Group_Index_Shift */                      \
   }
 
 #pragma pack(1)

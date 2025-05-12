@@ -13,8 +13,9 @@ DefinitionBlock("DsdtTable.aml", "DSDT",
                  EFI_ACPI_6_5_DIFFERENTIATED_SYSTEM_DESCRIPTION_TABLE_REVISION,
                  "SDUAII", "RVSP    ", EFI_ACPI_RISCV_OEM_REVISION)
 {
-    include("Cpu.asl")
+    //include("Cpu.asl")
     include("Rintc.asl")
+    include("Pci.asl")
     //UART
     Device (COM0){
         Name (_HID, "RV200003")
