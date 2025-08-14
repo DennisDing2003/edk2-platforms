@@ -34,7 +34,7 @@
 
 [LibraryClasses.common]
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
-  ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
+  ArmMmuLib|UefiCpuPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
   ArmPlatformLib|Silicon/ARM/NeoverseN1Soc/Library/PlatformLib/PlatformLib.inf
   BasePathLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
   HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
@@ -238,7 +238,7 @@
   # PEI Phase modules
   Silicon/ARM/NeoverseN1Soc/Library/N1SdpNtFwConfigPei/NtFwConfigPei.inf {
     <LibraryClasses>
-      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf  # Map to deprecated library for this module only
+      FdtLib|MdePkg/Library/BaseFdtLib/BaseFdtLib.inf
   }
 
   # Human Interface Support

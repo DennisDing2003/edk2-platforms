@@ -37,7 +37,7 @@
 
 [LibraryClasses.common]
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
-  ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
+  ArmMmuLib|UefiCpuPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
   ArmPlatformLib|Platform/ARM/JunoPkg/Library/ArmJunoLib/ArmJunoLib.inf
   ArmSmcLib|MdePkg/Library/ArmSmcLib/ArmSmcLib.inf
   ArmHvcLib|ArmPkg/Library/ArmHvcLib/ArmHvcLib.inf
@@ -405,7 +405,7 @@
   Platform/ARM/Drivers/FdtPlatformDxe/FdtPlatformDxe.inf {
     <LibraryClasses>
       BdsLib|Platform/ARM/Library/BdsLib/BdsLib.inf
-      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf  # Map to deprecated library for this module only
+      FdtLib|MdePkg/Library/BaseFdtLib/BaseFdtLib.inf
   }
 
   # SCMI Driver

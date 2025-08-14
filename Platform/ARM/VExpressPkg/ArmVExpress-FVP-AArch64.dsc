@@ -35,7 +35,9 @@
 !endif
 
 !ifndef ARM_FVP_RUN_NORFLASH
-  DEFINE EDK2_SKIP_PEICORE=1
+  DEFINE EDK2_SKIP_PEICORE=TRUE
+!else
+  DEFINE EDK2_SKIP_PEICORE=FALSE
 !endif
 
   DT_SUPPORT                     = FALSE
@@ -47,7 +49,7 @@
 [LibraryClasses.common]
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
   ArmPlatformLib|Platform/ARM/VExpressPkg/Library/ArmVExpressLibRTSM/ArmVExpressLib.inf
-  ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
+  ArmMmuLib|UefiCpuPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
 
   ArmPlatformSysConfigLib|Platform/ARM/VExpressPkg/Library/ArmVExpressSysConfigLib/ArmVExpressSysConfigLib.inf
 !ifdef EDK2_ENABLE_PL111
@@ -124,10 +126,12 @@
   # by MM_COMMUNICATE for communication between the
   # Normal world edk2 and the StandaloneMm image at S-EL0.
   # This buffer is allocated in TF-A.
+  # This value based on TF-A !ENABLE_RME where Normal shared area
+  # is located in (2GB - 17MB) as much as 1MB.
   #
 !if $(ENABLE_STMM) == TRUE
   ## MM Communicate
-  gArmTokenSpaceGuid.PcdMmBufferBase|0xFF600000
+  gArmTokenSpaceGuid.PcdMmBufferBase|0xFEF00000
   gArmTokenSpaceGuid.PcdMmBufferSize|0x10000
 !endif
 
@@ -138,9 +142,27 @@
   # System Memory
   # When RME is supported by the FVP the top 64MB of DRAM1 (i.e. at the top
   # of the 32bit address space) is reserved for four-world support in TF-A.
-  # Therefore, set the default System Memory size to (2GB - 64MB).
+  # And Normal shared area with Secure world is reserved 1MB from
+  # (2GB - 65MB).
+  # Therefore, set the default System Memory size to (2GB - 65MB).
+  #
+  # +-------------------------------------+ 0x80000000 (PcdSystemMemoryBase)
+  # |                                     |
+  # |                                     |
+  # |                                     |
+  # |     System Memory  (2GB - 65MB)     |
+  # |                                     |
+  # |                                     |
+  # +-------------------------------------+ 0xfbf00000 (PcdSystemMemoryBase + PcdSystemMemorySize)
+  # |   Reserved for normal world (1MB)   |
+  # |   (NS buffer, pesudo CRB and etc)   |
+  # +-------------------------------------+ 0xfc000000
+  # |   Reserved for secure world (64MB)  |
+  # |     (RME, StandaloneMm and etc)     |
+  # +-------------------------------------+ 0xffffffff
+  #
   gArmTokenSpaceGuid.PcdSystemMemoryBase|0x80000000
-  gArmTokenSpaceGuid.PcdSystemMemorySize|0x7C000000
+  gArmTokenSpaceGuid.PcdSystemMemorySize|0x7BF00000
 
   # Size of the region used by UEFI in permanent memory (Reserved 64MB)
   gArmPlatformTokenSpaceGuid.PcdSystemMemoryUefiRegionSize|0x04000000
@@ -167,9 +189,6 @@
   gArmPlatformTokenSpaceGuid.PcdSerialDbgUartBaudRate|115200
   gArmPlatformTokenSpaceGuid.PcdSerialDbgUartClkInHz|24000000
 
-  # SBSA Generic Watchdog
-  gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|59
-
   ## PL031 RealTimeClock
   gArmPlatformTokenSpaceGuid.PcdPL031RtcBase|0x1C170000
 
@@ -177,7 +196,6 @@
   gArmPlatformTokenSpaceGuid.PcdWatchdogCount|1
   gArmTokenSpaceGuid.PcdGenericWatchdogControlBase|0x2a440000
   gArmTokenSpaceGuid.PcdGenericWatchdogRefreshBase|0x2a450000
-  gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|59
 
 !ifdef EDK2_ENABLE_PL111
   ## PL111 Versatile Express Motherboard controller
@@ -194,6 +212,8 @@
   gArmTokenSpaceGuid.PcdGicDistributorBase|0x2f000000
   gArmTokenSpaceGuid.PcdGicRedistributorsBase|0x2f100000
   gArmTokenSpaceGuid.PcdGicInterruptInterfaceBase|0x2C000000
+
+  gArmTokenSpaceGuid.PcdGicIrsConfigFrameBase|0x2f1a0000
 
   #
   # PCI Root Complex
@@ -215,6 +235,11 @@
   #
   gEfiMdeModulePkgTokenSpaceGuid.PcdAcpiExposedTableVersions|0x20
 
+[PcdsDynamicDefault.common]
+  # ARM Generic Watchdog Interrupt number for GIC pre-v5
+  # This will be overwritten when GICv5 is in use
+  gArmTokenSpaceGuid.PcdGenericWatchdogEl2IntrNum|59
+
 ################################################################################
 #
 # Components Section - list of all EDK II Modules needed by this Platform
@@ -225,7 +250,7 @@
   #
   # PEI Phase modules
   #
-!ifdef EDK2_SKIP_PEICORE
+!if $(EDK2_SKIP_PEICORE) == TRUE
   # UEFI is placed in RAM by bootloader
   ArmPlatformPkg/PeilessSec/PeilessSec.inf {
     <LibraryClasses>
@@ -243,7 +268,6 @@
   ArmPlatformPkg/PlatformPei/PlatformPeim.inf
   ArmPlatformPkg/MemoryInitPei/MemoryInitPeim.inf
   ArmPkg/Drivers/CpuPei/CpuPei.inf
-  Nt32Pkg/BootModePei/BootModePei.inf
   MdeModulePkg/Universal/Variable/Pei/VariablePei.inf
   MdeModulePkg/Core/DxeIplPeim/DxeIpl.inf {
     <LibraryClasses>
@@ -323,10 +347,14 @@
   ArmPkg/Drivers/ArmGicDxe/ArmGicDxe.inf
   Platform/ARM/Drivers/NorFlashDxe/NorFlashDxe.inf
   ArmPkg/Drivers/TimerDxe/TimerDxe.inf
+
 !ifdef EDK2_ENABLE_PL111
   ArmPlatformPkg/Drivers/LcdGraphicsOutputDxe/LcdGraphicsOutputDxe.inf
 !endif
-  ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf
+  ArmPkg/Drivers/GenericWatchdogDxe/GenericWatchdogDxe.inf {
+    <LibraryClasses>
+      NULL|Platform/ARM/VExpressPkg/Library/ArmVExpressWatchdogLib/ArmVExpressWatchdogLib.inf
+  }
 
   # SMBIOS Support
 

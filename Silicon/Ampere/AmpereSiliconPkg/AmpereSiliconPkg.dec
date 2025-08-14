@@ -90,6 +90,8 @@
   gAmpereTokenSpaceGuid.PcdSmbiosTables0MajorVersion|0xFF|UINT8|0x00000005
   gAmpereTokenSpaceGuid.PcdSmbiosTables0MinorVersion|0xFF|UINT8|0x00000006
 
+  gAmpereTokenSpaceGuid.PcdFirmwareVersionNumber|0x00000000|UINT32|0x00000012
+
   #
   # I2C PCDs for SMBUS
   #
@@ -106,6 +108,7 @@
   #
   gAmpereTokenSpaceGuid.PcdUefiExtraFdBaseAddress|0x93100000|UINT64|0x0000000a
   gAmpereTokenSpaceGuid.PcdUefiExtraFdSize|0x00900000|UINT32|0x0000000b
+  gAmpereTokenSpaceGuid.PcdUefiExtraFlashSize|0x00000000|UINT32|0x0000000c
 
 [PcdsFixedAtBuild, PcdsDynamic, PcdsDynamicEx]
   #

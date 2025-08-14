@@ -1,5 +1,5 @@
 #
-#  Copyright (c) 2018 - 2024, Arm Limited. All rights reserved.
+#  Copyright (c) 2018 - 2025, Arm Limited. All rights reserved.
 #  (C) Copyright 2021 Hewlett Packard Enterprise Development LP<BR>
 #
 #  SPDX-License-Identifier: BSD-2-Clause-Patent
@@ -29,8 +29,9 @@
 
 [LibraryClasses.common]
   ArmLib|ArmPkg/Library/ArmLib/ArmBaseLib.inf
-  ArmMmuLib|ArmPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
+  ArmMmuLib|UefiCpuPkg/Library/ArmMmuLib/ArmMmuBaseLib.inf
   ArmSmcLib|MdePkg/Library/ArmSmcLib/ArmSmcLib.inf
+  ArmSvcLib|MdePkg/Library/ArmSvcLib/ArmSvcLib.inf
   ArmPlatformSysConfigLib|Platform/ARM/VExpressPkg/Library/ArmVExpressSysConfigLib/ArmVExpressSysConfigLib.inf
   ArmPlatformLib|Platform/ARM/SgiPkg/Library/PlatformLib/PlatformLib.inf
   BasePathLib|ShellPkg/Library/UefiShellLib/UefiShellLib.inf
@@ -72,6 +73,7 @@
   PeiCoreEntryPoint|MdePkg/Library/PeiCoreEntryPoint/PeiCoreEntryPoint.inf
 
 [LibraryClasses.common.PEIM]
+  ArmFfaLib|MdeModulePkg/Library/ArmFfaLib/ArmFfaPeiLib.inf
   PeimEntryPoint|MdePkg/Library/PeimEntryPoint/PeimEntryPoint.inf
 
 [LibraryClasses.common.DXE_CORE]
@@ -82,12 +84,14 @@
   PrintLib|MdePkg/Library/BasePrintLib/BasePrintLib.inf
 
 [LibraryClasses.common.DXE_DRIVER]
+  ArmFfaLib|MdeModulePkg/Library/ArmFfaLib/ArmFfaDxeLib.inf
   PciHostBridgeLib|Platform/ARM/SgiPkg/Library/PciHostBridgeLib/PciHostBridgeLib.inf
   PciSegmentLib|MdePkg/Library/BasePciSegmentLibPci/BasePciSegmentLibPci.inf
   PciLib|MdePkg/Library/BasePciLibPciExpress/BasePciLibPciExpress.inf
   PciExpressLib|MdePkg/Library/BasePciExpressLib/BasePciExpressLib.inf
 
 [LibraryClasses.common.DXE_RUNTIME_DRIVER]
+  ArmFfaLib|MdeModulePkg/Library/ArmFfaLib/ArmFfaDxeLib.inf
   BaseMemoryLib|MdePkg/Library/BaseMemoryLib/BaseMemoryLib.inf
   HobLib|MdePkg/Library/DxeHobLib/DxeHobLib.inf
 !if $(TARGET) != RELEASE
@@ -95,6 +99,7 @@
 !endif
 
 [LibraryClasses.common.UEFI_DRIVER, LibraryClasses.common.UEFI_APPLICATION, LibraryClasses.common.DXE_RUNTIME_DRIVER, LibraryClasses.common.DXE_DRIVER]
+  ArmFfaLib|MdeModulePkg/Library/ArmFfaLib/ArmFfaDxeLib.inf
   PcdLib|MdePkg/Library/DxePcdLib/DxePcdLib.inf
 
 ################################################################################
@@ -187,8 +192,10 @@
   gArmSgiTokenSpaceGuid.PcdVirtioNetSize|0x10000
 
   # Counter, Timer and Watchdog
-  gArmSgiTokenSpaceGuid.PcdTimerBase0Base|0x2A830000
-  gArmSgiTokenSpaceGuid.PcdTimerBase0Size|0x00010000
+  gArmSgiTokenSpaceGuid.PcdTimerFrame0Base|0x2A830000
+  gArmSgiTokenSpaceGuid.PcdTimerFrame1Base|0x2A820000
+  gArmSgiTokenSpaceGuid.PcdTimerFrame0Size|0x00010000
+  gArmSgiTokenSpaceGuid.PcdTimerFrame1Size|0x00010000
   gArmSgiTokenSpaceGuid.PcdTimerControlBase|0x2A810000
   gArmSgiTokenSpaceGuid.PcdTimerControlSize|0x00010000
   gArmSgiTokenSpaceGuid.PcdTimerCounterReadBase|0x2A800000
@@ -205,7 +212,7 @@
   # size of this buffer from ATF, hard-code it here
   #
   ## MM Communicate
-  gArmTokenSpaceGuid.PcdMmBufferBase|0xFF600000
+  gArmTokenSpaceGuid.PcdMmBufferBase|0xFEF00000
   gArmTokenSpaceGuid.PcdMmBufferSize|0x10000
 
 ################################################################################
@@ -234,7 +241,7 @@
   }
   Platform/ARM/SgiPkg/Library/SgiPlatformPei/SgiPlatformPei.inf {
     <LibraryClasses>
-      FdtLib|EmbeddedPkg/Library/FdtLib/FdtLib.inf  # Map to deprecated library for this module only
+      FdtLib|MdePkg/Library/BaseFdtLib/BaseFdtLib.inf
   }
 
   #
